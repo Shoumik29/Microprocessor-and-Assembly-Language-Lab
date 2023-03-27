@@ -24,15 +24,18 @@ main proc
     
     mov ah,1
     int 21h
-    sub al,48 
+    sub al,48
+    
+    cmp al,0
+    je print_not_prime
+    
+    cmp al,1
+    je print_not_prime 
     
     mov d,2
     mov n,al
     
-    check_prime:
-    
-        
-        
+    check_prime: 
         mov bl,d
         cmp n,bl
         je end_check
