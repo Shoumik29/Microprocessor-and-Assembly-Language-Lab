@@ -8,8 +8,8 @@ msg1 db "input string: $"
 msg2 db "first capital letter: $"
 msg3 db "last capital letter: $"
 msg4 db "no capitals $"
-first db ' '
-last db ' '
+first db 'Z'
+last db 'A'
 flag db 0
 
 .code
@@ -35,46 +35,25 @@ main proc
         mov str[si],al
         inc si
         
+        cmp al,first
+        jl first_update
+        
+        cmp al,last
+        jg last_update
+        
         jmp input
             
     
     end_input:    
         mov str[si],'$'
-        mov bl,'A'
-        mov cx,0
-        mov si,0
         
-        
-    update: 
-        cmp str[si],'$'
-        je reset
-            
-        cmp bl,str[si]
-        jne lv1 
-        
+    
+    empty_check:
         cmp flag,0
-        je first_update
-            
-        mov last,bl
-            
-        lv1:
-            inc si
-            jmp update
-        
-        reset:
-            cmp cx,26
-            je print
-            
-            inc bl
-            inc cx
-            mov si,0
-            
-            jmp update                  
-   
+        je empty
+                     
             
      print:
-        cmp first,' '
-        je empty
         
         call new_line
         mov ah,9
@@ -98,25 +77,25 @@ main proc
      exit:
         mov ah,4ch
         int 21h
-        
-     
+            
+             
      empty:
-        call new_line
-        mov ah,9
-        lea dx,msg4
-        int 21h 
+        mov first,' '
+        mov last,' '
+        jmp print
         
-        jmp exit
-        
-                       
+                   
      first_update:
-        mov first,bl
-        mov bl,'A'
-        mov cx,0
-        mov si,0
+        mov first,al
         mov flag,1
-        
-        jmp update
+        jmp input
+     
+     last_update:
+        cmp al,'Z'
+        jg input
+        mov last,al
+        mov flag,1
+        jmp input
         
     
 main endp
