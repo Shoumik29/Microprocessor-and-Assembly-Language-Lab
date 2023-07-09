@@ -9,7 +9,6 @@ msg3 db "Not Prime$"
 
 n db ?
 d db ?
-flag db 1
 
 .code
 
