@@ -45,33 +45,28 @@ main proc
         div d
         
         cmp ah,0
-        je not_prime
+        je print_not_prime:
         
         inc d
         jmp check_prime
-        
-        not_prime:
-            mov flag,0
-            jmp end_check
-            
+              
+              
     end_check:
-        cmp flag,1
-        je print_prime
-        jne print_not_prime
+    
         
-        print_prime:
-            call new_line
-            mov ah,9
-            lea dx,msg2
-            int 21h
+    print_prime:
+        call new_line
+        mov ah,9
+        lea dx,msg2
+        int 21h
             
-            jmp exit
+        jmp exit
         
-        print_not_prime:
-            call new_line
-            mov ah,9
-            lea dx,msg3
-            int 21h
+    print_not_prime:
+        call new_line
+        mov ah,9
+        lea dx,msg3
+        int 21h
         
     exit:
         mov ah,4ch
